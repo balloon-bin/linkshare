@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
-import "git.omicron.one/omicron/linkshare/internal/util"
+import (
+	"fmt"
+
+	"git.omicron.one/omicron/linkshare/internal/util"
+)
 
 func main() {
 	paths, err := util.FindDirectories("")

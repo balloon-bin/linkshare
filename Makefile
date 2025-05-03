@@ -19,7 +19,7 @@ test:
 	go test ./...
 
 validate:
-	@test -z "$(shell gofmt -l .)" || (echo "Incorrect formatting in:"; gofmt  -l .; exit 1)
+	@test -z "$(shell gofumpt -l .)" && echo "No files need formatting" || (echo "Incorrect formatting in:"; gofumpt  -l .; exit 1)
 	go vet ./...
 
 clean:

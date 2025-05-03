@@ -110,7 +110,7 @@ func FindDirectories(dbPath string) (*AppPaths, error) {
 
 // CreateDirectories ensures all application managed directories are created
 func CreateDirectories(paths *AppPaths) error {
-	err := os.MkdirAll(filepath.Dir(paths.DatabaseFile), 0750)
+	err := os.MkdirAll(filepath.Dir(paths.DatabaseFile), 0o750)
 	if err != nil {
 		return err
 	}

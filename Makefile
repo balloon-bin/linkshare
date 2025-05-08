@@ -3,6 +3,15 @@ BINARIES = $(patsubst cmd/%/,%,$(wildcard cmd/*/))
 
 .PHONY: all build test validate clean run $(BINARIES)
 
+VERSION := $(shell git describe --tags --always --dirty)
+COMMIT := $(shell git rev-parse --short HEAD)
+COMMIT_DATETIME := $(shell git log -1 --format=%cd --date=iso8601)
+
+LDFLAGS := -X git.omicron.one/omicron/linkshare/internal/version.Version=$(VERSION) \
+           -X git.omicron.one/omicron/linkshare/internal/version.GitCommit=$(COMMIT) \
+           -X "git.omicron.one/omicron/linkshare/internal/version.CommitDateTime=$(COMMIT_DATETIME)"
+
+
 all: build
 	
 
@@ -13,7 +22,7 @@ $(BINARY_DIR):
 	mkdir -p $(BINARY_DIR)
 
 $(BINARIES): %: $(BINARY_DIR)
-	go build -o $(BINARY_DIR)/$@ ./cmd/$@/
+	go build -ldflags '$(LDFLAGS)' -o $(BINARY_DIR)/$@ ./cmd/$@/
 
 test:
 	go test ./...

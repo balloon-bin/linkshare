@@ -14,9 +14,9 @@ import (
 	"strconv"
 
 	_ "github.com/mattn/go-sqlite3"
-)
 
-const expectedSchemaVersion = 1
+	"git.omicron.one/omicron/linkshare/internal/version"
+)
 
 // DB represents a database connection
 type DB struct {
@@ -123,13 +123,13 @@ func (db *DB) CheckSchemaVersion() error {
 	if err != nil {
 		return err
 	}
-	version, err := db.GetSchemaVersion()
+	version_, err := db.GetSchemaVersion()
 	if err != nil {
 		return err
 	}
-	if version < expectedSchemaVersion {
+	if version_ < version.SchemaVersion {
 		return ErrSchemaOutdated
-	} else if version > expectedSchemaVersion {
+	} else if version_ > version.SchemaVersion {
 		return ErrSchemaUnsupported
 	}
 	return nil

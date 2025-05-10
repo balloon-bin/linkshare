@@ -16,4 +16,5 @@ CREATE TABLE links (
 );
 
 CREATE INDEX idx_links_created_at ON links(created_at);
+CREATE INDEX idx_links_is_private_created_at ON links(is_private, created_at);
 CREATE INDEX idx_links_url ON links(url);

@@ -5,7 +5,6 @@
 package database
 
 import (
-	"context"
 	"database/sql"
 	"errors"
 	"fmt"
@@ -135,8 +134,12 @@ func (db *DB) CheckSchemaVersion() error {
 	return nil
 }
 
-func (db *DB) transaction(ctx context.Context, fn func(*sql.Tx) error) error {
-	tx, err := db.conn.BeginTx(ctx, nil)
+// Transaction executes the provided function within a SQL transaction.
+// If the function returns an error, the transaction is rolled back.
+// If the function panics, the transaction is rolled back and the panic is re-thrown.
+// The function receives a *sql.Tx that can be used for database operations.
+func (db *DB) Transaction(fn func(*sql.Tx) error) error {
+	tx, err := db.conn.Begin()
 	if err != nil {
 		return fmt.Errorf("failed to begin transaction: %w", err)
 	}

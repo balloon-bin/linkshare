@@ -45,12 +45,12 @@ func setupDb() error {
 	}
 	err := setupPaths()
 	if err != nil {
-		return nil
+		return err
 	}
 
 	db_, err := database.Open(dbPath)
 	if err != nil {
-		return nil
+		return err
 	}
 	db = db_
 	return nil

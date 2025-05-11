@@ -183,7 +183,7 @@ func (r *Repository) Count(includePrivate bool) (int, error) {
 		if includePrivate {
 			row = tx.QueryRow("SELECT COUNT(*) FROM links")
 		} else {
-			row = tx.QueryRow("SELECT COUNT(*) FROM links WHERE is_private")
+			row = tx.QueryRow("SELECT COUNT(*) FROM links WHERE is_private = 0")
 		}
 		return row.Scan(&count)
 	})

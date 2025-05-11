@@ -4,18 +4,9 @@ import (
 	"fmt"
 
 	"git.omicron.one/omicron/linkshare/internal/database"
-	"git.omicron.one/omicron/linkshare/internal/util"
 	"git.omicron.one/omicron/linkshare/internal/version"
 	"github.com/spf13/cobra"
 )
-
-func openDB() (*database.DB, error) {
-	paths, err := util.FindDirectories(dbPath)
-	if err != nil {
-		return nil, err
-	}
-	return database.Open(paths.DatabaseFile)
-}
 
 func dbPreRun(cmd *cobra.Command, args []string) error {
 	return setupDb()

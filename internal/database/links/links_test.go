@@ -301,7 +301,7 @@ func TestRepository_Count(t *testing.T) {
 		_, err := repo.Create(
 			"https://example"+string(rune('1'+i))+".com",
 			"Example "+string(rune('A'+i)),
-			i%2 == 1,
+			i%2 == 0,
 		)
 		if err != nil {
 			t.Fatalf("Failed to create link: %v", err)

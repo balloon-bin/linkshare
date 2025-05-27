@@ -1,0 +1,40 @@
+name: Validate the build 
+run-name: ${{ gitea.actor }} is validating
+on: [push]
+
+jobs:
+  validate-build:
+    runs-on: ubuntu-latest
+    container:
+      image: node:current-alpine
+    steps:
+      - name: Install dependencies
+        run: |
+          echo "https://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories
+          echo "https://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories
+          apk update
+          apk add --no-cache git make bash go
+
+          GOBIN=/usr/local/bin go install mvdan.cc/gofumpt@latest
+
+          export "PATH=$PATH:/root/go/bin"
+
+          echo "---------------------"
+          echo "Go version:"
+          go version
+          echo "---------------------"
+
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Fetch dependencies
+        run: |
+          go mod download
+
+      - name: Validate the code and formatting
+        run: |
+          make validate
+
+      - name: Run tests
+        run: |
+          make test

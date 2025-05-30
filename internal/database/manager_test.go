@@ -50,7 +50,7 @@ func TestInitialize(t *testing.T) {
 	schemaContent := `CREATE TABLE settings (
     key TEXT PRIMARY KEY,
     value TEXT NOT NULL,
-    kind TEXT CHECK(kind IN ('int', 'string', 'bool', 'json', 'glob')) NOT NULL
+    kind TEXT CHECK(kind IN ('int', 'string', 'bool', 'json')) NOT NULL
 );
 
 INSERT INTO settings (key, value, kind) VALUES ('schema-version', '1', 'int');`
